@@ -11,6 +11,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+@Tag("fast")
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class UserServiceTest {
     private static final UserDto MAXIM = UserDto.of(1L, "Maxim", "password");
@@ -47,6 +48,7 @@ class UserServiceTest {
     }
 
     @Test
+    @Tag("login")
     void loginSuccessIfUserExists() {
         userService.add(MAXIM);
         Optional<UserDto> maybeUser = userService.login(MAXIM.getUsername(), MAXIM.getPassword());
@@ -59,6 +61,7 @@ class UserServiceTest {
     }
 
     @Test
+    @Tag("login")
     void throwExceptionIfUsernameOrPasswordIsNull() {
         assertAll(
                 () -> assertThrows(IllegalArgumentException.class, () -> userService.login(null, "null")),
@@ -82,6 +85,7 @@ class UserServiceTest {
     }
 
     @Test
+    @Tag("login")
     void loginFailIfPasswordIncorrect() {
         userService.add(MAXIM);
         var maybeUser = userService.login(EVGENIY.getUsername(), "1234");
@@ -90,6 +94,7 @@ class UserServiceTest {
     }
 
     @Test
+    @Tag("login")
     void loginFailIfUserNotFound() {
         userService.add(EVGENIY);
 
