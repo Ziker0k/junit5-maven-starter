@@ -24,6 +24,9 @@ public class UserService {
     }
 
     public Optional<UserDto> login(String username, String password) {
+        if (username == null || password == null) {
+            throw new IllegalArgumentException("Username and password are required");
+        }
         return users.stream()
                 .filter(user -> user.getUsername().equals(username) && user.getPassword().equals(password))
                 .findFirst();

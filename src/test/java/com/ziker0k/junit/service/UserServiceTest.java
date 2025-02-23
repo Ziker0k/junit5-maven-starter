@@ -9,8 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class UserServiceTest {
@@ -57,6 +56,14 @@ class UserServiceTest {
 
 //        maybeUser.ifPresent(userDto -> assertEquals(MAXIM, userDto));
         maybeUser.ifPresent(userDto -> assertThat(userDto).isEqualTo(MAXIM));
+    }
+
+    @Test
+    void throwExceptionIfUsernameOrPasswordIsNull() {
+        assertAll(
+                () -> assertThrows(IllegalArgumentException.class, () -> userService.login(null, "null")),
+                () -> assertThrows(IllegalArgumentException.class, () -> userService.login("null", null))
+        );
     }
 
     @Test
